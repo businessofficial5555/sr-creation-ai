@@ -20,20 +20,23 @@ function makeScript(){let t=document.getElementById('topic').value.trim();if(!t)
 function sendApproval(){if(!scriptText)return alert('पहले Script बनाएँ');q.unshift({text:scriptText,date:new Date().toLocaleString(),status:'Pending'});try{localStorage.setItem('srq',JSON.stringify(q))}catch(e){}alert('Approval Center में भेजा गया');tab('approval')}
 function renderQueue(){let el=document.getElementById('queue');el.innerHTML='';if(!q.length){el.textContent='अभी कोई script नहीं है।';return}q.forEach((x,i)=>{let d=document.createElement('div');d.className='card';let p=document.createElement('p');p.textContent=x.status+' • '+x.date;let pre=document.createElement('pre');pre.className='result';pre.textContent=x.text;let b=document.createElement('button');b.textContent=x.status==='Reviewed'?'Reviewed ✓':'Reviewed';b.disabled=x.status==='Reviewed';b.onclick=()=>{q[i].status='Reviewed';localStorage.setItem('srq',JSON.stringify(q));renderQueue()};d.append(p,pre,b);el.append(d)})}
 function makeVideoPlan(){
-let raw=document.getElementById('studioScript').value.trim();if(!raw)return alert('Script paste करें या Script Writer से बनाएँ');
+let raw=document.getElementById('studioScript').value.trim();
+if(!raw)return alert('Script paste करें या Script Writer से बनाएँ');
+raw=raw.replace(/\\n/g,'\n').replace(/\r/g,'');
 let fmt=document.getElementById('studioFormat').value,style=document.getElementById('visualStyle').value;
-let topic=(raw.match(/विषय:\\s*(.+)/)||[])[1]||'आपका वीडियो विषय';
-let lines=raw.split(/\\n+/).map(x=>x.trim()).filter(x=>x.length>12);
-let skip=/^(विषय:|प्रकार:|भाषा:|स्टाइल:|HOOK|INTRO:|MAIN CONTENT:|ENDING:|CREATOR NOTE:|\\d+\\.)/i;
-let content=lines.filter(x=>!skip.test(x)&&!/^नमस्कार दोस्तों/.test(x));
-if(!content.length)content=lines.filter(x=>!/^विषय:|^प्रकार:|^भाषा:|^स्टाइल:/.test(x));
+let topic=(raw.match(/विषय:\s*(.+)/)||[])[1]||'आपका वीडियो विषय';
+let lines=raw.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+let skip=/^(विषय:|प्रकार:|भाषा:|स्टाइल:|HOOK|INTRO:|MAIN CONTENT:|ENDING:|CREATOR NOTE:|SCENE\s*\d+|VOICEOVER|VISUAL|EDITING|TAGS|DESCRIPTION|TITLE)/i;
+let content=lines.filter(x=>!skip.test(x)&&!/^नमस्कार दोस्तों/.test(x)&&!/^ऐसी जानकारी के लिए/.test(x));
+content=content.map(x=>x.replace(/^\d+[\.\)]\s*/,'').trim()).filter(x=>x.length>12);
+if(!content.length)content=[topic+' के बारे में परिचय और जरूरी जानकारी दें।','इस विषय को step-by-step समझाएँ।','मुख्य सावधानियाँ और निष्कर्ष बताएँ।'];
 content=content.slice(0,8);
 let sceneTitles=['Opening Hook','Problem / Introduction','Main Explanation','Step-by-step Demonstration','Important Tips','Safety / Common Mistakes','Result / Summary','Call to Action'];
 let scenes=content.map((part,i)=>{
 let visual=style==='Repair footage + captions'?'अपने असली repair work का close-up shot, tools और relevant component दिखाएँ':style==='Screen recording + text'?'स्क्रीन रिकॉर्डिंग लें, जरूरी हिस्से पर zoom और highlight करें':style==='AI cinematic'?'इस लाइन के अनुरूप cinematic illustrative shot बनाएँ; वास्तविक repair का झूठा दावा न करें':'इस लाइन से संबंधित साफ, वास्तविक और original footage दिखाएँ';
-return 'SCENE '+(i+1)+' — '+(sceneTitles[i]||'Supporting Detail')+'\\nVoiceover: '+part+'\\nVisual direction: '+visual+'\\nAI / stock visual prompt: "'+topic+', '+part.slice(0,110)+', realistic educational video, clean composition, no logos, no text"'+'\\nOn-screen caption: '+part.slice(0,90)+'\\nEditing: voice के साथ clip sync करें, जरूरी हिस्से पर zoom/cut लगाएँ।';
+return 'SCENE '+(i+1)+' — '+(sceneTitles[i]||'Supporting Detail')+'\nVoiceover: '+part+'\nVisual direction: '+visual+'\nAI / stock visual prompt: "'+topic+', '+part.slice(0,110)+', realistic educational video, clean composition, no logos, no text"\nOn-screen caption: '+part.slice(0,90)+'\nEditing: voice के साथ clip sync करें, जरूरी हिस्से पर zoom/cut लगाएँ।';
 });
-videoPlan='SR CREATION VIDEO PRODUCTION PLAN\\nTopic: '+topic+'\\nFormat: '+fmt+'\\nVisual style: '+style+'\\nScenes: '+scenes.length+'\\n\\n'+scenes.join('\\n\\n')+'\\n\\nVOICEOVER & EDITING\\n1. हर scene की voiceover line साफ रिकॉर्ड करें।\\n2. उसी line से मेल खाता original clip लगाएँ।\\n3. Hindi captions जोड़ें और spelling जाँचें।\\n4. Copyright-safe music और visuals ही इस्तेमाल करें।\\n5. Final video पूरा देखकर export करें: '+(fmt.includes('Shorts')?'1080 × 1920 vertical':'1920 × 1080 horizontal')+'.\\n\\nNote: यह scene plan और prompts हैं, MP4 video render नहीं।';
+videoPlan='SR CREATION VIDEO PRODUCTION PLAN\nTopic: '+topic+'\nFormat: '+fmt+'\nVisual style: '+style+'\nScenes: '+scenes.length+'\n\n'+scenes.join('\n\n')+'\n\nVOICEOVER & EDITING\n1. हर scene की voiceover line साफ रिकॉर्ड करें।\n2. उसी line से मेल खाता original clip लगाएँ।\n3. Hindi captions जोड़ें और spelling जाँचें।\n4. Copyright-safe music और visuals ही इस्तेमाल करें।\n5. Final video पूरा देखकर export करें: '+(fmt.includes('Shorts')?'1080 × 1920 vertical':'1920 × 1080 horizontal')+'.\n\nNote: यह scene plan और prompts हैं, MP4 video render नहीं।';
 document.getElementById('studioOut').textContent=videoPlan;
 }
 function makeSEO(){let t=document.getElementById('seoTopic').value.trim();if(!t)return alert('विषय लिखें');seoText='TITLE OPTIONS\n1. '+t+' | पूरी जानकारी आसान हिंदी में\n2. '+t+' कैसे करें? | Step-by-Step Guide\n\nDESCRIPTION\nआज के वीडियो में '+t+' को आसान Hindi/Hinglish में समझाया गया है। वीडियो उपयोगी लगे तो Like, Comment और SR Creation Subscribe करें।\n\nTAGS\n'+[t,'SR Creation','Hindi','Hinglish','tutorial','how to','technology'].join(', ')+'\n\nTHUMBNAIL TEXT\n'+t+'\nपूरी जानकारी';document.getElementById('seoOut').textContent=seoText}
