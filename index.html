@@ -7,7 +7,7 @@
 <nav class="tabs"><button onclick="tab('home')">Dashboard</button><button onclick="tab('script')">Script Writer</button><button onclick="tab('studio')">Video Studio</button><button onclick="tab('seo')">YouTube SEO</button><button onclick="tab('approval')">Approval Center</button><button onclick="tab('settings')">Settings</button></nav>
 <section id="home"><div class="card"><h3>आज का लक्ष्य</h3><div class="grid"><div><span class="pill">Daily Target</span><h2>1 Long + 2 Shorts</h2></div><div><span class="pill">Publishing</span><h3>Hybrid Approval</h3></div></div><p class="muted">एक विषय चुनें → Script बनाएँ → Video Studio में scenes तैयार करें → SEO करें → Approval जाँचें → वीडियो export और upload करें।</p><button onclick="tab('script')">आज का वीडियो शुरू करें</button></div><div class="card"><h3>आपके Content Categories</h3><p>AI Tools & Technology • EV Repair & Technology • Original Comedy & Entertainment • Education & How-to</p><p class="muted">Health, Finance, News और संवेदनशील विषयों पर पहले आपकी अनुमति जरूरी होगी।</p></div><div class="card"><h3>V1.1 में जोड़ा गया</h3><p class="good">✓ Video Studio: scene-by-scene plan, visual prompts, voiceover और editing checklist.</p><p class="muted">यह अभी production planner है, असली MP4 renderer या AI video API नहीं।</p></div></section>
 <section id="script" class="hide"><div class="card"><h3>Script Writer</h3><label>वीडियो विषय</label><input id="topic" placeholder="जैसे Ola S1 Pro BMS Repair"><div class="grid"><div><label>वीडियो प्रकार</label><select id="kind"><option>Long Video</option><option>YouTube Short</option></select></div><div><label>भाषा</label><select id="lang"><option>Hindi + Hinglish</option><option>Hindi</option><option>English</option></select></div><div><label>स्टाइल</label><select id="style"><option>Tutorial</option><option>EV Repair</option><option>AI Technology</option><option>Comedy</option><option>Storytelling</option><option>Education</option></select></div></div><button onclick="makeScript()">Script बनाएँ</button><button class="secondary" onclick="sendApproval()">Approval में भेजें</button><div id="scriptOut" class="result">आपकी Script यहाँ दिखाई देगी।</div><button class="secondary" onclick="copyText(scriptText)">Script Copy करें</button></div></section>
-<section id="studio" class="hide"><div class="card"><h3>🎥 Video Studio — Script से Video Plan</h3><p class="muted">पहले Script Writer में script बनाएँ। यहाँ हर scene का visual idea, voiceover और editing instruction तैयार होगा।</p><label>Script (यहाँ paste भी कर सकते हैं)</label><textarea id="studioScript" placeholder="अपनी पूरी script यहाँ paste करें..."></textarea><div class="grid"><div><label>Format</label><select id="studioFormat"><option>Long Video (16:9)</option><option>Shorts (9:16)</option></select></div><div><label>Visual Style</label><select id="visualStyle"><option>Realistic video</option><option>AI cinematic</option><option>Screen recording + text</option><option>Repair footage + captions</option></select></div></div><button onclick="makeVideoPlan()">Scenes तैयार करें</button><button class="secondary" onclick="copyText(videoPlan)">पूरा Plan Copy करें</button><div id="studioOut" class="result">Video plan यहाँ आएगा।</div><div class="card"><h3>🎬 Scene Voice + Video Export</h3><p class="muted">Scenes तैयार करने के बाद हर scene का voiceover अलग सुनें और text-based preview video export करें। Export अभी silent WebM है, MP4 नहीं।</p><div id="sceneVoiceList" class="result">पहले Scenes तैयार करें।</div><button onclick="exportSceneVideo()">▶ Video Preview Export करें</button><p id="exportStatus" class="muted">यह scenes के captions वाला silent preview बनाएगा।</p><a id="videoDownload" class="hide" download="sr-creation-preview.webm">Preview Video डाउनलोड करें</a></div><div class="card"><h3>📱 उसी विषय से 2 Shorts बनाएँ</h3><p class="muted">Long Video के विषय से दो अलग hooks और short scripts तैयार करें।</p><button onclick="makeDailyShorts()">2 Shorts की Scripts बनाएँ</button><button class="secondary" onclick="copyText(shortsText)">दोनों Shorts Copy करें</button><div id="shortsOut" class="result">Shorts scripts यहाँ दिखाई देंगी।</div></div><div class="card"><h3>🎙️ Hindi Voice Studio — Free Preview</h3><p class="muted">अपने ब्राउज़र की उपलब्ध Hindi voice से script सुनें। यह local preview है; MP3 download अभी शामिल नहीं है।</p><label>Voiceover Text</label><textarea id="voiceText" placeholder="यहाँ बोलने वाली script लिखें..."></textarea><div class="grid"><div><label>Voice</label><select id="voiceChoice"><option value="auto">Auto Hindi / Indian voice</option></select></div><div><label>बोलने की गति</label><select id="voiceRate"><option value="0.85">धीमी</option><option value="1" selected>Normal</option><option value="1.15">तेज़</option></select></div></div><button onclick="loadVoiceText()">Long Script से Voiceover भरें</button><button onclick="previewVoice()">▶ Voice सुनें</button><button class="secondary" onclick="stopVoice()">■ रोकें</button><p id="voiceStatus" class="muted">Voice preview आपके फोन/ब्राउज़र की speech सुविधा पर निर्भर है।</p></div></div><div class="card"><h3>Editing Checklist</h3><p>☐ Voiceover record करें ☐ अपने original clips जोड़ें ☐ Captions लगाएँ ☐ Background music की permission जाँचें ☐ Thumbnail बनाएँ ☐ Final video देखें</p></div></section>
+<section id="studio" class="hide"><div class="card"><h3>🎥 Video Studio — Script से Video Plan</h3><p class="muted">पहले Script Writer में script बनाएँ। यहाँ हर scene का visual idea, voiceover और editing instruction तैयार होगा।</p><label>Script (यहाँ paste भी कर सकते हैं)</label><textarea id="studioScript" placeholder="अपनी पूरी script यहाँ paste करें..."></textarea><div class="grid"><div><label>Format</label><select id="studioFormat"><option>Long Video (16:9)</option><option>Shorts (9:16)</option></select></div><div><label>Visual Style</label><select id="visualStyle"><option>Realistic video</option><option>AI cinematic</option><option>Screen recording + text</option><option>Repair footage + captions</option></select></div></div><button onclick="makeVideoPlan()">Scenes तैयार करें</button><button class="secondary" onclick="copyText(videoPlan)">पूरा Plan Copy करें</button><div id="studioOut" class="result">Video plan यहाँ आएगा।</div><div class="card"><h3>🎬 V1.8 Scene Media Editor</h3><p class="muted">हर Scene में अपनी फोटो/वीडियो और रिकॉर्ड किया हुआ voiceover/audio चुनें। Export WebM में होगा; MP4 conversion अभी उपलब्ध नहीं है।</p><div id="sceneVoiceList" class="result">पहले Scenes तैयार करें।</div><div id="sceneMediaList"></div><button onclick="exportSceneVideo()">▶ Media + Voice के साथ WebM Export करें</button><p id="exportStatus" class="muted">हर Scene के लिए media चुनना वैकल्पिक है। Audio file जोड़ने पर वह वीडियो में शामिल होगी।</p><a id="videoDownload" class="hide" download="sr-creation-video.webm">⬇ वीडियो डाउनलोड करें (WebM)</a></div><div class="card"><h3>📱 उसी विषय से 2 Shorts बनाएँ</h3><p class="muted">Long Video के विषय से दो अलग hooks और short scripts तैयार करें।</p><button onclick="makeDailyShorts()">2 Shorts की Scripts बनाएँ</button><button class="secondary" onclick="copyText(shortsText)">दोनों Shorts Copy करें</button><div id="shortsOut" class="result">Shorts scripts यहाँ दिखाई देंगी।</div></div><div class="card"><h3>🎙️ Hindi Voice Studio — Free Preview</h3><p class="muted">अपने ब्राउज़र की उपलब्ध Hindi voice से script सुनें। यह local preview है; MP3 download अभी शामिल नहीं है।</p><label>Voiceover Text</label><textarea id="voiceText" placeholder="यहाँ बोलने वाली script लिखें..."></textarea><div class="grid"><div><label>Voice</label><select id="voiceChoice"><option value="auto">Auto Hindi / Indian voice</option></select></div><div><label>बोलने की गति</label><select id="voiceRate"><option value="0.85">धीमी</option><option value="1" selected>Normal</option><option value="1.15">तेज़</option></select></div></div><button onclick="loadVoiceText()">Long Script से Voiceover भरें</button><button onclick="previewVoice()">▶ Voice सुनें</button><button class="secondary" onclick="stopVoice()">■ रोकें</button><p id="voiceStatus" class="muted">Voice preview आपके फोन/ब्राउज़र की speech सुविधा पर निर्भर है।</p></div></div><div class="card"><h3>Editing Checklist</h3><p>☐ Voiceover record करें ☐ अपने original clips जोड़ें ☐ Captions लगाएँ ☐ Background music की permission जाँचें ☐ Thumbnail बनाएँ ☐ Final video देखें</p></div></section>
 <section id="seo" class="hide"><div class="card"><h3>YouTube SEO Helper</h3><label>वीडियो विषय</label><input id="seoTopic" placeholder="वीडियो का विषय लिखें"><button onclick="makeSEO()">SEO बनाएँ</button><div id="seoOut" class="result"></div><button class="secondary" onclick="copyText(seoText)">SEO Copy करें</button></div></section>
 <section id="approval" class="hide"><div class="card"><h3>Approval Center</h3><p class="muted">Reviewed का अर्थ केवल आपकी समीक्षा है; इससे वीडियो Publish या Upload नहीं होता।</p><div id="queue"></div></div></section>
 <section id="settings" class="hide"><div class="card"><h3>Hybrid Publishing Rules</h3><p><b>Auto category (भविष्य में API जुड़ने पर):</b> AI Tools, EV Repair, Original Comedy, Education.</p><p><b>Manual approval:</b> Health, Finance, Breaking News, Politics, Legal, sensitive और unclassified topics.</p><p class="warn">Auto Publish अभी OFF है। YouTube OAuth, सुरक्षित backend, upload API और category checks बनाना बाकी है।</p></div><div class="card"><h3>Current Version</h3><p>V1.1 • Browser-based prototype • Data stored on this device/browser.</p><p class="muted">अलग device या browser में आपकी local Approval list अपने आप sync नहीं होगी।</p></div></section>
@@ -75,16 +75,28 @@ shortsText=[
 ].join('\n');
 document.getElementById('shortsOut').textContent=shortsText;
 }
-let sceneItems=[];
+let sceneItems=[],sceneFiles=[],sceneAudio=[];
 function buildSceneVoiceList(){
 let raw=document.getElementById('studioScript').value.trim().replace(/\r/g,'');
 let main=(raw.split(/MAIN CONTENT:/i)[1]||raw).split(/ENDING:|CREATOR NOTE:/i)[0];
 let lines=main.split(/\n+/).map(x=>x.trim()).filter(Boolean);
 sceneItems=lines.filter(x=>x.length>10&&!/^(विषय:|प्रकार:|भाषा:|स्टाइल:|HOOK|INTRO|MAIN CONTENT)/i.test(x)).map(x=>x.replace(/^\d+[.)]\s*/,'' )).slice(0,8);
-let el=document.getElementById('sceneVoiceList');
+let el=document.getElementById('sceneVoiceList'),media=document.getElementById('sceneMediaList');
+el.innerHTML='';media.innerHTML='';sceneFiles=Array(sceneItems.length).fill(null);sceneAudio=Array(sceneItems.length).fill(null);
 if(!sceneItems.length){el.textContent='Scenes नहीं मिले। पहले Script paste करके Scenes तैयार करें।';return}
-el.innerHTML='';
-sceneItems.forEach((line,i)=>{let row=document.createElement('div');row.style.margin='8px 0';let label=document.createElement('div');label.textContent='Scene '+(i+1)+': '+line;let b=document.createElement('button');b.textContent='▶ इस Scene की आवाज़';b.onclick=()=>playSceneVoice(i);row.append(label,b);el.append(row)});
+sceneItems.forEach((line,i)=>{
+let row=document.createElement('div');row.style.margin='8px 0';
+let label=document.createElement('div');label.textContent='Scene '+(i+1)+': '+line;
+let b=document.createElement('button');b.textContent='▶ इस Scene की आवाज़';b.onclick=()=>playSceneVoice(i);row.append(label,b);el.append(row);
+let box=document.createElement('div');box.className='card';
+let title=document.createElement('b');title.textContent='Scene '+(i+1)+' Media';
+let visualLabel=document.createElement('label');visualLabel.textContent='Photo या Video Clip चुनें';
+let visual=document.createElement('input');visual.type='file';visual.accept='image/*,video/*';visual.onchange=()=>{sceneFiles[i]=visual.files[0]||null;};
+let audioLabel=document.createElement('label');audioLabel.textContent='इस Scene की recorded voice/audio (वैकल्पिक)';
+let audio=document.createElement('input');audio.type='file';audio.accept='audio/*';audio.onchange=()=>{sceneAudio[i]=audio.files[0]||null;};
+let hint=document.createElement('p');hint.className='muted';hint.textContent='एक Scene के लिए एक photo/video और एक audio file चुनें।';
+box.append(title,visualLabel,visual,audioLabel,audio,hint);media.append(box);
+});
 }
 function playSceneVoice(i){
 if(!sceneItems[i])return;
@@ -99,32 +111,45 @@ async function exportSceneVideo(){
 if(!sceneItems.length)buildSceneVoiceList();
 if(!sceneItems.length)return alert('पहले Scenes तैयार करें।');
 if(!window.MediaRecorder||!HTMLCanvasElement.prototype.captureStream){alert('इस browser में video export support नहीं है। Chrome के नए version में try करें।');return}
-let w=document.getElementById('studioFormat').value.includes('Shorts')?720:1280;
-let h=document.getElementById('studioFormat').value.includes('Shorts')?1280:720;
+let w=document.getElementById('studioFormat').value.includes('Shorts')?720:1280,h=document.getElementById('studioFormat').value.includes('Shorts')?1280:720;
 let canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;let ctx=canvas.getContext('2d');
-let stream=canvas.captureStream(25);let mime=MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm';
-let recorder=new MediaRecorder(stream,{mimeType:mime});let chunks=[];
+let stream=canvas.captureStream(25),audioCtx=null,audioDest=null;
+try{
+if(sceneAudio.some(Boolean)){audioCtx=new(window.AudioContext||window.webkitAudioContext)();audioDest=audioCtx.createMediaStreamDestination();audioDest.stream.getAudioTracks().forEach(t=>stream.addTrack(t));}
+}catch(e){alert('Audio export इस browser में उपलब्ध नहीं है। केवल video export होगा।')}
+let mime=MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')?'video/webm;codecs=vp9,opus':(MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')?'video/webm;codecs=vp8,opus':'video/webm');
+let recorder=new MediaRecorder(stream,{mimeType:mime}),chunks=[];
 recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
 let done=new Promise(resolve=>recorder.onstop=resolve);recorder.start();
 let topic=(document.getElementById('studioScript').value.match(/विषय:\s*(.+)/)||[])[1]||'SR Creation';
 for(let i=0;i<sceneItems.length;i++){
+let img=null,vid=null,source=sceneFiles[i],audioBuffer=null;
+if(source&&source.type.startsWith('image/')){img=new Image();img.src=URL.createObjectURL(source);await new Promise(res=>{img.onload=res;img.onerror=res;});}
+if(source&&source.type.startsWith('video/')){vid=document.createElement('video');vid.src=URL.createObjectURL(source);vid.muted=true;vid.playsInline=true;await new Promise(res=>{vid.onloadedmetadata=res;vid.onerror=res;});try{await vid.play()}catch(e){}}
+if(audioCtx&&sceneAudio[i]){try{audioBuffer=await audioCtx.decodeAudioData(await sceneAudio[i].arrayBuffer())}catch(e){}}
+let duration=audioBuffer?Math.max(3000,audioBuffer.duration*1000):(vid&&vid.duration&&isFinite(vid.duration)?Math.min(8000,vid.duration*1000):4000);
+if(audioBuffer&&audioCtx&&audioDest){let src=audioCtx.createBufferSource();src.buffer=audioBuffer;src.connect(audioDest);src.start();}
 let start=performance.now();
-while(performance.now()-start<3000){
+while(performance.now()-start<duration){
 ctx.fillStyle='#0b1020';ctx.fillRect(0,0,w,h);
-ctx.fillStyle='#172b4b';ctx.fillRect(w*.06,h*.08,w*.88,h*.84);
-ctx.fillStyle='#8eaaff';ctx.font='bold '+Math.round(w*.035)+'px sans-serif';ctx.fillText('SR CREATION',w*.1,h*.18);
-ctx.fillStyle='#ffffff';ctx.font='bold '+Math.round(w*.04)+'px sans-serif';ctx.fillText('SCENE '+(i+1)+' / '+sceneItems.length,w*.1,h*.31);
-ctx.font=Math.round(w*.034)+'px sans-serif';
-let words=sceneItems[i].split(/\s+/),line='',y=h*.43,limit= Math.floor(w*.72/ (w*.018));
-for(let j=0;j<words.length;j++){let test=line+words[j]+' ';if(test.length>limit){ctx.fillText(line,w*.1,y);line=words[j]+' ';y+=h*.07;}else line=test;}
+if(img&&img.complete&&img.naturalWidth){let scale=Math.max(w/img.width,h/img.height),dw=img.width*scale,dh=img.height*scale;ctx.drawImage(img,(w-dw)/2,(h-dh)/2,dw,dh);}
+else if(vid&&vid.readyState>=2&&vid.videoWidth){let scale=Math.max(w/vid.videoWidth,h/vid.videoHeight),dw=vid.videoWidth*scale,dh=vid.videoHeight*scale;ctx.drawImage(vid,(w-dw)/2,(h-dh)/2,dw,dh);if(vid.ended)vid.currentTime=0;}
+else{ctx.fillStyle='#172b4b';ctx.fillRect(w*.06,h*.08,w*.88,h*.84);}
+ctx.fillStyle='rgba(5,12,28,.72)';ctx.fillRect(w*.06,h*.72,w*.88,h*.19);
+ctx.fillStyle='#8eaaff';ctx.font='bold '+Math.round(w*.03)+'px sans-serif';ctx.fillText('SR CREATION  •  SCENE '+(i+1),w*.1,h*.79);
+ctx.fillStyle='#ffffff';ctx.font=Math.round(w*.025)+'px sans-serif';
+let words=sceneItems[i].split(/\s+/),line='',y=h*.85,limit=Math.floor(w*.7/(w*.014));
+for(let word of words){let test=line+word+' ';if(test.length>limit){ctx.fillText(line,w*.1,y);line=word+' ';y+=h*.04;}else line=test;}
 if(line)ctx.fillText(line,w*.1,y);
-ctx.fillStyle='#9eb1d0';ctx.font=Math.round(w*.022)+'px sans-serif';ctx.fillText(topic.slice(0,70),w*.1,h*.84);
+if(vid&&vid.duration&&isFinite(vid.duration)&&!vid.ended){try{if(vid.currentTime>=vid.duration-.15)vid.currentTime=0}catch(e){}}
 await new Promise(r=>requestAnimationFrame(r));
 }
+if(vid){vid.pause();URL.revokeObjectURL(vid.src)}if(img)URL.revokeObjectURL(img.src);
 }
-recorder.stop();await done;stream.getTracks().forEach(t=>t.stop());
-let blob=new Blob(chunks,{type:'video/webm'});let url=URL.createObjectURL(blob);let a=document.getElementById('videoDownload');a.href=url;a.classList.remove('hide');a.textContent='⬇ Preview Video डाउनलोड करें (WebM)';
-document.getElementById('exportStatus').textContent='Preview तैयार है। यह silent WebM है; voiceover अलग सुनें और editing app में जोड़ें।';
+recorder.stop();await done;stream.getTracks().forEach(t=>t.stop());if(audioCtx)await audioCtx.close();
+let blob=new Blob(chunks,{type:'video/webm'}),url=URL.createObjectURL(blob),a=document.getElementById('videoDownload');
+if(a.href.startsWith('blob:'))URL.revokeObjectURL(a.href);a.href=url;a.classList.remove('hide');a.textContent='⬇ वीडियो डाउनलोड करें (WebM)';
+document.getElementById('exportStatus').textContent='Export पूरा हुआ। चुनी हुई photos/videos और uploaded audio शामिल किए गए। Browser के अनुसार export समय लग सकता है।';
 }
 let availableVoices=[];
 function loadVoiceChoices(){
